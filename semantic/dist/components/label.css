@@ -316,15 +316,15 @@ a.ui.label {
 
 /* Positioning */
 .ui.ribbon.label {
-  left: calc(-1rem - 1.2em);
+  left: calc(-2.2rem);
   margin-right: -1.2em;
-  padding-left: calc(1rem + 1.2em);
+  padding-left: calc(2.2rem);
   padding-right: 1.2em;
 }
 .ui[class*="right ribbon"].label {
-  left: calc(100% + 1rem + 1.2em);
+  left: calc(102.2%);
   padding-left: 1.2em;
-  padding-right: calc(1rem + 1.2em);
+  padding-right: calc(2.2rem);
 }
 
 /* Right Ribbon */
@@ -351,20 +351,20 @@ a.ui.label {
 }
 .ui.card .image > .ui.ribbon.label,
 .ui.image > .ui.ribbon.label {
-  left: calc(--0.05rem - 1.2em);
+  left: calc(-1.15rem);
 }
 .ui.card .image > .ui[class*="right ribbon"].label,
 .ui.image > .ui[class*="right ribbon"].label {
-  left: calc(100% + -0.05rem + 1.2em);
+  left: calc(101.15%);
   padding-left: 0.833em;
 }
 
 /* Inside Table */
 .ui.table td > .ui.ribbon.label {
-  left: calc(-0.76923077em - 1.2em);
+  left: calc(-1.96923077em);
 }
 .ui.table td > .ui[class*="right ribbon"].label {
-  left: calc(100% + 0.76923077em + 1.2em);
+  left: calc(101.96923077%);
   padding-left: 0.833em;
 }
 
