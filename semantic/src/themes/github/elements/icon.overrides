@@ -204,5 +204,6 @@
 .icon.unmute:before { content: '\f0ba'} /*  */
 .icon.versions:before { content: '\f064'} /*  */
 .icon.remove.close:before,
+.icon.close:before,
 .icon.x:before { content: '\f081'} /*  */
 .icon.zap:before { content: '\26A1'} /* ⚡ */

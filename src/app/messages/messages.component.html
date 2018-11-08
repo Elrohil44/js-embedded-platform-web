@@ -1,0 +1,9 @@
+<div *ngIf="messageService.messages.length" class="ui container">
+  <sui-message
+    *ngFor='let message of messageService.messages'
+    class="{{message.class || ''}}"
+    (dismiss)="messageService.removeMessage(message)"
+  >
+    {{ message.content }}
+  </sui-message>
+</div>

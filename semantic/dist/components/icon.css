@@ -1417,6 +1417,7 @@ i.icons .inverted.corner.icon {
 
 /*  */
 .icon.remove.close:before,
+.icon.close:before,
 .icon.x:before {
   content: '\f081';
 }
