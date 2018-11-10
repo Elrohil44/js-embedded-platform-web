@@ -23,15 +23,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let location of locationService.locations">
+        <tr *ngFor="let location of locations">
           <td>
             <p>{{location.ip}}</p>
           </td>
-          <td [class.negative]="location.healthy >= 5" [class.positive]="location.healthy < 5" class="collapsing">
-            <p><i *ngIf="location.healthy < 5" class="icon check"></i>{{getStatus(location)}}</p>
+          <td [class.negative]="location.healthy >= 3" [class.positive]="location.healthy < 3" class="collapsing">
+            <p><i *ngIf="location.healthy < 3" class="icon check"></i>{{location.healthy < 3 ? 'OK' : 'DISCONNECTED'}}</p>
           </td>
           <td class="collapsing">
-            <div class="ui right floated medium primary labeled icon button">
+            <div class="ui right floated medium primary labeled icon button" (click)="onConnectClick(location)">
               <i class="radio tower icon"></i> Connect
             </div>
           </td>

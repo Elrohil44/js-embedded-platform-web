@@ -23,10 +23,10 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let device of deviceService.devices">
+      <tr *ngFor="let device of devices">
         <td class="single line">
           <i class="icon tools black"></i>
-          <a routerLink="/device/{{device.endpoint}}">
+          <a routerLink="/device/{{encodeURIComponent(device.endpoint)}}">
             {{device.endpoint}}
           </a>
         </td>

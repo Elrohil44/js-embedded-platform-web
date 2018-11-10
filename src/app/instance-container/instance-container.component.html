@@ -1,8 +1,11 @@
-<div class="ui segments">
-  <div class="ui segment" *ngFor="let resource of instance.resources">
-    {{resource.name}}
-    <div *ngFor="let permission of resource.permissions" class="ui right floated medium primary labeled icon button">
-      <i class="icon {{getIcon(permission)}}"></i> {{getActionName(permission)}}
+<div class="ui segment">
+  <h2>Instance {{instance.id}}</h2>
+  <div class="ui segments">
+    <div class="ui segment" *ngFor="let resource of instance.resources">
+      {{resource.name}}
+      <div *ngFor="let permission of resource.permissions" class="ui right floated medium primary labeled icon button">
+        <i class="icon {{getIcon(permission)}}"></i> {{getActionName(permission)}}
+      </div>
     </div>
   </div>
 </div>

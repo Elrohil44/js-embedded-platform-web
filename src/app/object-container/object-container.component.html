@@ -8,6 +8,8 @@
     </div>
   </div>
   <div class="ui bottom attached segment" >
-    <app-instance-container *ngFor="let instance of object.instances" [instance]="instance"></app-instance-container>
+    <div class="instance-container" *ngFor="let instance of object.instances">
+      <app-instance-container [instance]="instance"></app-instance-container>
+    </div>
   </div>
 </div>

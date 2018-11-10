@@ -1,18 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { DeviceService } from '../device.service';
 import { Device } from '../models/device';
 import { MessageService } from '../message.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-device-details',
   templateUrl: './device-details.component.html',
   styleUrls: ['./device-details.component.sass']
 })
-export class DeviceDetailsComponent implements OnInit {
+export class DeviceDetailsComponent implements OnInit, OnDestroy {
   device: Device;
+  deviceSubscription: Subscription;
+  paramsSubscription: Subscription;
+  endpoint: string;
 
   constructor(
     private deviceService: DeviceService,
@@ -22,18 +26,31 @@ export class DeviceDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getDevice();
+    this.paramsSubscription = this.route.paramMap.subscribe((paramMap) => {
+      const endpoint = decodeURIComponent(paramMap.get('endpoint'));
+      if (endpoint !== this.endpoint) {
+        this.endpoint = endpoint;
+        this.deviceSubscription = this.deviceService
+          .getDevice(endpoint)
+          .subscribe((device) => {
+            if (!device) {
+              this.messageService.add({
+                class: 'error',
+                content: 'Device not found',
+              });
+              this.location.back();
+            }
+            this.device = device;
+            this.deviceSubscription.unsubscribe();
+          });
+      }
+    });
   }
 
-  getDevice(): void {
-    const endpoint = this.route.snapshot.paramMap.get('endpoint');
-    this.device = this.deviceService.getDevice(endpoint);
-    if (!this.device) {
-      this.messageService.add({
-        class: 'error',
-        content: 'Device not found',
-      });
-      this.location.back();
+  ngOnDestroy() {
+    if (this.deviceSubscription) {
+      this.deviceSubscription.unsubscribe();
     }
+    this.paramsSubscription.unsubscribe();
   }
 }

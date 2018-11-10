@@ -8,6 +8,11 @@ import {
   ServerObject,
   ServerObjectInstance
 } from './models/objects';
+import { MessageType, WebSocketMessage } from './models/websocket-types';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/internal/operators';
+import { MessageService } from './message.service';
+import { WebSocketService } from './websocket.service';
 
 const mockDevice = new Device();
 
@@ -38,9 +43,49 @@ mockDevice.objects.push(
 export class DeviceService {
   devices: Device[] = [mockDevice];
 
-  constructor() { }
+  constructor(
+    private webSocketService: WebSocketService,
+    private messageService: MessageService,
+  ) { }
 
-  getDevice(endpoint: string): Device {
-    return this.devices.find(device => device.endpoint === endpoint);
+  getDevice(endpoint: string): Observable<Device> {
+    return this.webSocketService.webSocket.multiplex(
+      () => ({ type: MessageType.GET_DEVICE, endpoint }),
+      () => ({ type: MessageType.NOOP }),
+      (msg: WebSocketMessage) => msg.type === MessageType.DEVICE
+        && msg.device && msg.device.endpoint === endpoint)
+      .pipe(
+        catchError((err) => {
+          this.messageService.add({
+            class: 'error',
+            content: err.message || 'Could not connect to WebSocket, make sure it is running',
+          });
+          return of({
+            type: MessageType.DEVICE,
+            device: null,
+          } as WebSocketMessage);
+        }),
+        map(msg => msg.device),
+      );
+  }
+
+  getDevices(): Observable<Device[]> {
+    return this.webSocketService.webSocket.multiplex(
+      () => ({ type: MessageType.SUB_DEVICE_LIST }),
+      () => ({ type: MessageType.UNSUB_DEVICE_LIST }),
+      (msg: WebSocketMessage) => msg.type === MessageType.DEVICE_LIST)
+      .pipe(
+        catchError((err) => {
+          this.messageService.add({
+            class: 'error',
+            content: err.message || 'Could not connect to WebSocket, make sure it is running',
+          });
+          return of({
+            type: MessageType.DEVICE_LIST,
+            devices: [],
+          } as WebSocketMessage);
+        }),
+        map(msg => msg.devices),
+      );
   }
 }

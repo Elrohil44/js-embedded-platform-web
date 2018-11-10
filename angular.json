@@ -27,8 +27,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.sass",
-              "semantic/dist/semantic.min.css"
+              "semantic/dist/semantic.min.css",
+              "src/assets/modal.min.css",
+              "src/styles.sass"
             ],
             "scripts": []
           },
