@@ -15,7 +15,7 @@ interface IConnectDeviceModal {
 export class ConnectDeviceModalComponent implements OnInit {
   endpoint = '';
 
-  constructor(public modal: SuiModal<void, string>) { }
+  constructor(public modal: SuiModal<ConnectDeviceModal, string, void>) { }
 
   ngOnInit(): void {}
 
@@ -26,8 +26,8 @@ export class ConnectDeviceModalComponent implements OnInit {
   }
 }
 
-export class ConnectDeviceModal extends ComponentModalConfig<IConnectDeviceModal, void, string> {
-  constructor(title: string, body: string, size = ModalSize.Mini) {
+export class ConnectDeviceModal extends ComponentModalConfig<IConnectDeviceModal, string, void> {
+  constructor(public title: string, public body: string, size = ModalSize.Mini) {
     super(ConnectDeviceModalComponent, { title, body });
 
     this.isClosable = false;

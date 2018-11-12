@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 export class DeviceLocationsListComponent implements OnInit, OnDestroy {
   locations: DeviceLocation[] = [];
   locationsSubscription$: Subscription;
+  collapse: boolean;
 
   constructor(
     public locationService: DeviceLocationService,

@@ -9,7 +9,7 @@ import {LwM2MObjectInstance, Permission, Resource} from '../models/objects';
 export class InstanceContainerComponent implements OnInit {
   @Input() instance: LwM2MObjectInstance;
   @Input() objectId: number | string;
-  @Output() read: EventEmitter<string> = new EventEmitter();
+  @Output() read: EventEmitter<string | number> = new EventEmitter();
 
   constructor() { }
 

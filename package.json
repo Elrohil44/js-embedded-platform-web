@@ -23,7 +23,6 @@
     "core-js": "^2.5.4",
     "ng2-semantic-ui": "^0.9.7",
     "rxjs": "~6.3.3",
-    "semantic-ui": "^2.4.2",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
@@ -44,6 +43,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "less": "^2.7.3",
     "protractor": "~5.4.0",
+    "semantic-ui": "^2.4.2",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
     "typescript": "~3.1.1"

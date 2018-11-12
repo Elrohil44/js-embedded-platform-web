@@ -7,6 +7,7 @@ export enum Permission {
 
 export class LwM2MObject {
   id: number;
+  name: string;
   singleton: boolean;
   instances: LwM2MObjectInstance[] = [];
 }

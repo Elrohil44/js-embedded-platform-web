@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 export class DeviceListComponent implements OnInit, OnDestroy {
   devices: Device[] = [];
   devices$: Subscription;
+  collapse: boolean;
 
   constructor(public deviceService: DeviceService) { }
 
