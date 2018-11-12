@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {LwM2MObjectInstance, Permission} from '../models/objects';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {LwM2MObjectInstance, Permission, Resource} from '../models/objects';
 
 @Component({
   selector: 'app-instance-container',
@@ -8,10 +8,16 @@ import {LwM2MObjectInstance, Permission} from '../models/objects';
 })
 export class InstanceContainerComponent implements OnInit {
   @Input() instance: LwM2MObjectInstance;
+  @Input() objectId: number | string;
+  @Output() read: EventEmitter<string> = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  getPermissions(resource: Resource): Permission[] {
+    return resource.permissions.filter(p => !p);
   }
 
   getIcon(permission: Permission): string {
@@ -33,6 +39,21 @@ export class InstanceContainerComponent implements OnInit {
     switch (permission) {
       case Permission.READABLE:
         return 'Read';
+      case Permission.WRITABLE:
+        return 'Write';
+      case Permission.EXECUTABLE:
+        return 'Execute';
+      case Permission.DELETABLE:
+        return 'Delete';
+      default:
+        return 'No action';
+    }
+  }
+
+  handleAction(permission: Permission, resourceId: number) {
+    switch (permission) {
+      case Permission.READABLE:
+        return this.read.emit(`${this.instance.id}/${resourceId}`);
       case Permission.WRITABLE:
         return 'Write';
       case Permission.EXECUTABLE:

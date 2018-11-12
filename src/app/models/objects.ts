@@ -1,5 +1,5 @@
 export enum Permission {
-  READABLE,
+  READABLE = 0,
   WRITABLE,
   EXECUTABLE,
   DELETABLE,
@@ -22,6 +22,8 @@ export class Resource {
   name?: string;
   permissions: Permission[];
   value?: any;
+  error?: any;
+  updatedAt?: Date;
 }
 
 export class ServerObject extends LwM2MObject {

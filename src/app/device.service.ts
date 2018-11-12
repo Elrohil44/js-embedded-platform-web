@@ -10,7 +10,7 @@ import {
 } from './models/objects';
 import { MessageType, WebSocketMessage } from './models/websocket-types';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/internal/operators';
+import { catchError, map, timeout, timeoutWith } from 'rxjs/internal/operators';
 import { MessageService } from './message.service';
 import { WebSocketService } from './websocket.service';
 
@@ -55,6 +55,7 @@ export class DeviceService {
       (msg: WebSocketMessage) => msg.type === MessageType.DEVICE
         && msg.device && msg.device.endpoint === endpoint)
       .pipe(
+        timeout(5000),
         catchError((err) => {
           this.messageService.add({
             class: 'error',
@@ -87,5 +88,44 @@ export class DeviceService {
         }),
         map(msg => msg.devices),
       );
+  }
+
+  read(endpoint: string, resource: string): Observable<WebSocketMessage> {
+    return this.webSocketService.webSocket.multiplex(
+      () => ({ type: MessageType.READ, endpoint, resource }),
+      () => ({ type: MessageType.NOOP }),
+      (msg: WebSocketMessage) => (msg.type === MessageType.READ_RESPONSE || msg.type === MessageType.READ_ERROR)
+       && msg.endpoint === endpoint && msg.resource === resource
+    ).pipe(
+      timeoutWith(5000, of({
+        type: MessageType.READ_ERROR,
+        message: 'Timeout',
+        error: 'Error',
+      } as WebSocketMessage)),
+      catchError((err => {
+        this.messageService.add({
+          class: 'error',
+          content: err.message || 'Could not connect to WebSocket, make sure it is running',
+        });
+        return of({
+          type: MessageType.READ_ERROR,
+          message: err.message || 'Could not connect to WebSocket',
+        } as WebSocketMessage);
+      }),
+    ));
+  }
+
+  restart(endpoint: string): void {
+    this.webSocketService.webSocket.next({
+      type: MessageType.RESTART,
+      endpoint,
+    });
+  }
+
+  updateFirmware(endpoint: string): void {
+    this.webSocketService.webSocket.next({
+      type: MessageType.UPDATE_FIRMWARE,
+      endpoint,
+    });
   }
 }

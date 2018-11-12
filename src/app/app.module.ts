@@ -13,6 +13,7 @@ import { ObjectContainerComponent } from './object-container/object-container.co
 import { InstanceContainerComponent } from './instance-container/instance-container.component';
 import { ConnectDeviceModalComponent } from './connect-device-modal/connect-device-modal.component';
 import { FormsModule } from '@angular/forms';
+import { ResourceValuePipe } from './resource-value.pipe';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { FormsModule } from '@angular/forms';
     DeviceListComponent,
     ObjectContainerComponent,
     InstanceContainerComponent,
-    ConnectDeviceModalComponent
+    ConnectDeviceModalComponent,
+    ResourceValuePipe
   ],
   entryComponents: [
     ConnectDeviceModalComponent

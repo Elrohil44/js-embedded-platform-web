@@ -11,8 +11,13 @@ export enum MessageType {
   CONNECT_DEVICE = 'CONNECT_DEVICE',
   GET_DEVICE = 'GET_DEVICE',
   DEVICE = 'DEVICE',
+  READ = 'READ',
+  READ_RESPONSE = 'READ_RESPONSE',
+  READ_ERROR = 'READ_ERROR',
   ERROR = 'ERROR',
   UNSUPPORTED_TYPE = 'UNSUPPORTED_TYPE',
+  RESTART = 'RESTART',
+  UPDATE_FIRMWARE = 'UPDATE_FIRMWARE',
   NOOP = 'NOOP',
 }
 
@@ -22,7 +27,10 @@ export class WebSocketMessage {
   deviceLocations?: DeviceLocation[];
   devices?: Device[];
   device?: Device;
+  data?: any;
+  error?: string;
   endpoint?: string;
+  resource?: string;
   ip?: string;
   port?: number;
 }

@@ -20,6 +20,9 @@
         <th>
           Last update date
         </th>
+        <th>
+          Actions
+        </th>
       </tr>
       </thead>
       <tbody>
@@ -35,6 +38,19 @@
         </td>
         <td class="collapsing">
           <p>{{device.updatedAt | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+        </td>
+        <td class="collapsing">
+          <div class="ui buttons">
+            <div class="ui button primary" (click)="deviceService.updateFirmware(device.endpoint)">
+              <i class="icon repo push"></i> Upload
+            </div>
+            <div class="ui button primary" (click)="deviceService.restart(device.endpoint)">
+              <i class="icon sync"></i> Restart
+            </div>
+            <div class="ui button primary" suiPopup popupTrigger="focus" popupHeader="Attention" popupText="TODO">
+              <i class="icon file text"></i> Logs
+            </div>
+          </div>
         </td>
       </tr>
       </tbody>

@@ -6,10 +6,16 @@
         {{object.name}}
       </h1>
     </div>
+    <!--<div>-->
+      <!--<div *ngIf="!object.singleton" class="ui big primary icon button" (click)="createInstance()">-->
+        <!--<i class="icon plus"></i>-->
+        <!--Create-->
+      <!--</div>-->
+    <!--</div>-->
   </div>
-  <div class="ui bottom attached segment" >
+  <div class="ui bottom attached segment">
     <div class="instance-container" *ngFor="let instance of object.instances">
-      <app-instance-container [instance]="instance"></app-instance-container>
+      <app-instance-container [instance]="instance" [objectId]="object.id" (read)="onRead($event)"></app-instance-container>
     </div>
   </div>
 </div>

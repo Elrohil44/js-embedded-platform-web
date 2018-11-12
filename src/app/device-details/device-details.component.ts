@@ -15,7 +15,6 @@ import { Subscription } from 'rxjs';
 export class DeviceDetailsComponent implements OnInit, OnDestroy {
   device: Device;
   deviceSubscription: Subscription;
-  paramsSubscription: Subscription;
   endpoint: string;
 
   constructor(
@@ -26,31 +25,26 @@ export class DeviceDetailsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.paramsSubscription = this.route.paramMap.subscribe((paramMap) => {
-      const endpoint = decodeURIComponent(paramMap.get('endpoint'));
-      if (endpoint !== this.endpoint) {
-        this.endpoint = endpoint;
-        this.deviceSubscription = this.deviceService
-          .getDevice(endpoint)
-          .subscribe((device) => {
-            if (!device) {
-              this.messageService.add({
-                class: 'error',
-                content: 'Device not found',
-              });
-              this.location.back();
-            }
-            this.device = device;
-            this.deviceSubscription.unsubscribe();
+    const endpoint = decodeURIComponent(this.route.snapshot.paramMap.get('endpoint'));
+    this.endpoint = endpoint;
+    this.deviceSubscription = this.deviceService
+      .getDevice(endpoint)
+      .subscribe((device) => {
+        if (!device) {
+          this.messageService.add({
+            class: 'error',
+            content: 'Device not found',
           });
-      }
-    });
+          this.location.back();
+        }
+        this.device = device;
+        this.deviceSubscription.unsubscribe();
+      });
   }
 
   ngOnDestroy() {
     if (this.deviceSubscription) {
       this.deviceSubscription.unsubscribe();
     }
-    this.paramsSubscription.unsubscribe();
   }
 }
