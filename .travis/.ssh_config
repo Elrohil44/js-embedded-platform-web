@@ -1,3 +1,2 @@
 Host js-embedded-platform
-  HostName github.com
-  IdentityFile
+HostName github.com
